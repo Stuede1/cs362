@@ -6,6 +6,13 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+* @author Yunpeng Lyu
+*
+* Manages the stocks
+*
+*/
+
 public class Inventory implements InventoryManagementInterface {
     private String itemName;
     private int quantity;
