@@ -36,7 +36,7 @@ public class Patient implements PatientRecordInterface {
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATIENT_FILE, true))) {
-            writer.write(patientID + "," + name + "," + dateOfBirth + "," + address + "," + medicalRecord);
+            writer.write(patientID + "," + patientName + "," + dateOfBirth + "," + address + "," + medicalRecord);
             writer.newLine();
             return "Registration successful. Patient ID: " + patientID;
         } catch (IOException e) {
@@ -56,9 +56,9 @@ public class Patient implements PatientRecordInterface {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATIENT_FILE))) {
             for (Patient patient : patients) {
                 if (patient.getPatientID().equals(this.patientID)) {
-                    writer.write(patientID + "," + name + "," + dateOfBirth + "," + address + "," + medicalRecord);
+                    writer.write(patientID + "," + patientName + "," + dateOfBirth + "," + address + "," + medicalRecord);
                 } else {
-                    writer.write(patient.patientID + "," + patient.name + "," + patient.dateOfBirth + ","
+                    writer.write(patient.patientID + "," + patient.patientName + "," + patient.dateOfBirth + ","
                             + patient.address + "," + patient.medicalRecord);
                 }
                 writer.newLine();
