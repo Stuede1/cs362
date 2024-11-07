@@ -18,33 +18,4 @@ public interface AppointmentInterface {
     // Method to cancel an appointment
     boolean cancelAppointment(String appointmentId);
 
-
-    // Inner class to represent an appointment object
-    class Appointment {
-        private String appointmentId;
-        private String patientId;
-        private String doctorId;
-        private String dateTime;
-        private String location;
-
-        // Constructor
-        public Appointment(String appointmentId, String patientId, String doctorId, String dateTime, String location) {
-            this.appointmentId = appointmentId;
-            this.patientId = patientId;
-            this.doctorId = doctorId;
-            this.dateTime = dateTime;
-            this.location = location;
-        }
-
-        // Getters and Setters
-        public String getAppointmentId() { return appointmentId; }
-        public String getPatientId() { return patientId; }
-        public String getDoctorId() { return doctorId; }
-        public String getDateTime() { return dateTime; }
-        public String getLocation() { return location; }
-
-        public void setDateTime(String dateTime) { this.dateTime = dateTime; }
-        public void setLocation(String location) { this.location = location; }
-    }
-
 }

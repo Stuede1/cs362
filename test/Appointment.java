@@ -6,7 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Appointment {
+public class Appointment implements AppointmentInterface {
     private String appointmentID;
     private String date;
     private String time;
@@ -74,5 +74,35 @@ public class Appointment {
             }
         }
         return appointments;
+    }
+
+    @Override
+    public boolean isPatientRegistered(String patientId) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void registerPatient(String patientId, String patientName, String contactInfo) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean isDoctorAvailable(String doctorId, String dateTime) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Appointment scheduleAppointment(String patientId, String doctorId, String dateTime) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public Appointment rescheduleAppointment(String appointmentId, String newDateTime) {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public boolean cancelAppointment(String appointmentId) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
