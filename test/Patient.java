@@ -6,7 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Patient {
+public class Patient implements PatientRecordInterface {
     private String patientID;
     private String name;
     private String dateOfBirth;
@@ -29,12 +29,12 @@ public class Patient {
         return "P" + (getAllPatients().size() + 1);
     }
 
-    //manage alternate flows
+    // manage alternate flows
     public String registerPatient() {
         if (name.isEmpty() || dateOfBirth.isEmpty() || address.isEmpty()) {
             return "Registration failed: All fields are required.";
         }
-        
+
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATIENT_FILE, true))) {
             writer.write(patientID + "," + name + "," + dateOfBirth + "," + address + "," + medicalRecord);
             writer.newLine();
@@ -43,11 +43,13 @@ public class Patient {
             return "Registration failed: " + e.getMessage();
         }
     }
+
     // Update patient medical record
     public String updateMedicalRecord(String newRecord) {
         this.medicalRecord += newRecord + "\n";
         return saveUpdates();
     }
+
     // Save updates to the patient file
     private String saveUpdates() {
         List<Patient> patients = getAllPatients();
@@ -56,7 +58,8 @@ public class Patient {
                 if (patient.getPatientID().equals(this.patientID)) {
                     writer.write(patientID + "," + name + "," + dateOfBirth + "," + address + "," + medicalRecord);
                 } else {
-                    writer.write(patient.patientID + "," + patient.name + "," + patient.dateOfBirth + "," + patient.address + "," + patient.medicalRecord);
+                    writer.write(patient.patientID + "," + patient.name + "," + patient.dateOfBirth + ","
+                            + patient.address + "," + patient.medicalRecord);
                 }
                 writer.newLine();
             }
@@ -73,14 +76,16 @@ public class Patient {
             List<String> lines = Files.readAllLines(Paths.get(PATIENT_FILE));
             for (String line : lines) {
                 String[] data = line.split(",");
-                // patients.add(new Patient(data[1], data[2], data[3])); // Assuming the order is ID, Name, DOB, Address
-                // patients.get(patients.size() - 1).patientID = data[0]; // Set the ID for the patient
+                // patients.add(new Patient(data[1], data[2], data[3])); // Assuming the order
+                // is ID, Name, DOB, Address
+                // patients.get(patients.size() - 1).patientID = data[0]; // Set the ID for the
+                // patient
 
-                //updated code that will handle medicalRecord
+                // updated code that will handle medicalRecord
                 Patient patient = new Patient(data[1], data[2], data[3]);
                 patient.medicalRecord = data[4];
-                patients.get(patients.size() - 1).patientID = data[0]; 
-                patient.patientID = data[0]; 
+                patients.get(patients.size() - 1).patientID = data[0];
+                patient.patientID = data[0];
                 patients.add(patient);
             }
         } catch (IOException e) {
@@ -92,6 +97,40 @@ public class Patient {
     // Getters
     public String getPatientID() {
         return patientID;
+    }
+
+    @Override
+    public boolean accessPatientRecord(String patientId) {
+        for (Patient patient : getAllPatients()) {
+            if (patient.getPatientID().equals(patientId)) {
+                System.out.println("Accessing record for patient: " + patientId);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean updatePatientRecord(String patientId, String recordDetails) {
+        for (Patient patient : getAllPatients()) {
+            if (patient.getPatientID().equals(patientId)) {
+                patient.updateMedicalRecord(recordDetails);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean logRecordAccess(String userId, String patientId, boolean success) {
+        String status;
+        if (success) {
+            status = "Success";
+        } else {
+            status = "Failure";
+        }
+        System.out.println("User " + userId + " tried to access patient " + patientId + ": " + status);
+        return true;
     }
 
     // Other getters and setters can be added here

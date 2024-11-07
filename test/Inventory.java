@@ -6,7 +6,7 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Inventory {
+public class Inventory implements InventoryManagementInterface {
     private String itemName;
     private int quantity;
     private static final String INVENTORY_FILE = "inventory.txt";
@@ -58,4 +58,40 @@ public class Inventory {
             }
         }
     }
+
+    @Override
+    public boolean checkInventoryLevels() {
+        for (Inventory item : getAllItems()) {
+            if (item.quantity <= 5) {
+                System.out.println("Low stock detected for: " + item.itemName);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean notifyLowStock(String itemId, int requiredQuantity) {
+        System.out.println("Notifying for low stock of item: " + itemId + ", Required: " + requiredQuantity);
+        return true;
+    }
+
+    @Override
+    public boolean placeStockOrder(String itemId, int quantity) {
+        System.out.println("Placing order for item: " + itemId + ", Quantity: " + quantity);
+        return true;
+    }
+
+    @Override
+    public boolean receiveStock(String orderId) {
+        System.out.println("Receiving stock for order: " + orderId);
+        return true;
+    }
+
+    @Override
+    public boolean logStockActivity(String itemId, String activityDescription) {
+        System.out.println("Logging activity for item: " + itemId + " - " + activityDescription);
+        return true;
+    }
+
 }
