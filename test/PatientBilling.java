@@ -3,10 +3,17 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-
+/*
+ * Author: Joe Faith
+ * 
+ * class description:
+ * PatientBilling will take the type of care that a patient recieves 
+ * and cross references that with the patients income and insurance
+ * in order to find the total that the patient should be charged
+ * 
+ */
 public class PatientBilling {
 
-    // Class to hold patient information
     static class Patient {
         double income;
         String insurance;
@@ -22,7 +29,7 @@ public class PatientBilling {
         Map<Integer, Patient> patientData = new HashMap<>();
         BufferedReader br = new BufferedReader(new FileReader(fileName));
         String line;
-        br.readLine(); // Skip the header
+        br.readLine();
         while ((line = br.readLine()) != null) {
             String[] values = line.split(",");
             int patientID = Integer.parseInt(values[0]);
@@ -48,11 +55,13 @@ public class PatientBilling {
             case "emergency":
                 baseRate = 500.0;
                 break;
+            case "probono":
+                baseRate = 0.0;
             default:
                 throw new IllegalArgumentException("Invalid type of care: " + typeOfCare);
         }
 
-        // Insurance adjustment factors
+        // Insurance adjustment
         double insuranceFactor;
         switch (patient.insurance.toLowerCase()) {
             case "none":
@@ -64,11 +73,13 @@ public class PatientBilling {
             case "premium":
                 insuranceFactor = 0.5;
                 break;
+            case "probono":
+                insuranceFactor = 0.0;
             default:
                 throw new IllegalArgumentException("Invalid insurance type: " + patient.insurance);
         }
 
-        // Income adjustment based on sliding scale
+        // Income adjustment
         double incomeAdjustment;
         if (patient.income < 20000) {
             incomeAdjustment = 0.5;
@@ -81,24 +92,5 @@ public class PatientBilling {
         // Calculate final bill
         double finalBill = baseRate * insuranceFactor * incomeAdjustment;
         return finalBill;
-    }
-
-    public static void main(String[] args) {
-        try {
-            Map<Integer, Patient> patientData = readPatientData("patients.csv");
-            
-            int patientID = 1; // Example patientID
-            String typeOfCare = "specialist";
-
-            Patient patient = patientData.get(patientID);
-            if (patient != null) {
-                double bill = calculateBill(patient, typeOfCare);
-                System.out.println("The patient's bill is: $" + bill);
-            } else {
-                System.out.println("Patient not found.");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 }

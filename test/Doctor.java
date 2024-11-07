@@ -1,3 +1,6 @@
+import java.util.HashMap;
+import java.util.Map;
+
 /**
 * @author Cole Stuedeman
 *
@@ -15,11 +18,11 @@ public class Doctor {
     public Doctor(String name, String specialty) {
         this.name = name;
         this.specialty = specialty;
-        this.doctorID = doctorID;
+        this.doctorID = generateDoctorID();
     }
 
     private String generateDoctorID() {
-        return doctorID;
+        return "D" + (DoctorDatabase.getDoctorCount() + 1);
     }
 
     // Getters
