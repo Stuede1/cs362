@@ -6,6 +6,13 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+* @author Yunpeng Lyu
+*
+* Manages patient records
+*
+*/
+
 public class Patient implements PatientRecordInterface {
     private String patientID;
     private String patientName;

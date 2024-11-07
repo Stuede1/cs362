@@ -1,3 +1,10 @@
+/**
+* @author Yunpeng Lyu
+*
+* Interface for Inventory
+*
+*/
+
 public interface InventoryManagementInterface {
     boolean checkInventoryLevels();
     boolean notifyLowStock(String itemId, int requiredQuantity);

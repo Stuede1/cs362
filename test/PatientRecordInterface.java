@@ -1,3 +1,9 @@
+/**
+* @author Yunpeng Lyu
+*
+* Interface for Inventory
+*
+*/
 
 public interface PatientRecordInterface {
     boolean accessPatientRecord(String patientId);
