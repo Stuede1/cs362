@@ -1,5 +1,3 @@
-import java.util.HashMap;
-import java.util.Map;
 
 public class Doctor {
     private String doctorID;
@@ -12,11 +10,11 @@ public class Doctor {
     public Doctor(String name, String specialty) {
         this.name = name;
         this.specialty = specialty;
-        this.doctorID = generateDoctorID();
+        this.doctorID = doctorID;
     }
 
     private String generateDoctorID() {
-        return "D" + (DoctorDatabase.getDoctorCount() + 1);
+        return doctorID;
     }
 
     // Getters
