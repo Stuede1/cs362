@@ -1,3 +1,9 @@
+/**
+* @author Cole Stuedeman
+*
+* Student is the Information Expert that knows about Grades.
+*
+*/
 public interface AppointmentInterface {
 
     // Method to check if a patient is registered in the system

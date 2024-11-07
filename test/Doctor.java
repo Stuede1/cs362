@@ -1,4 +1,9 @@
-
+/**
+* @author Cole Stuedeman
+*
+* Student is the Information Expert that knows about Grades.
+*
+*/
 public class Doctor {
     private String doctorID;
     private String name;

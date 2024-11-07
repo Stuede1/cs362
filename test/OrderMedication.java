@@ -1,4 +1,9 @@
-
+/**
+* @author Cole Stuedeman
+*
+* Student is the Information Expert that knows about Grades.
+*
+*/
 public class OrderMedication {
 
     private Pharmacy pharmacy;

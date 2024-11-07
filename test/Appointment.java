@@ -1,3 +1,9 @@
+/**
+* @author Cole Stuedeman
+*
+* Student is the Information Expert that knows about Grades.
+*
+*/
 import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
