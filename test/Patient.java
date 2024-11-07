@@ -8,7 +8,7 @@ import java.util.List;
 
 public class Patient implements PatientRecordInterface {
     private String patientID;
-    private String name;
+    private String patientName;
     private String dateOfBirth;
     private String address;
     private String medicalRecord;
@@ -16,8 +16,8 @@ public class Patient implements PatientRecordInterface {
     // File path for storing patient records
     private static final String PATIENT_FILE = "patients.txt";
 
-    public Patient(String name, String dateOfBirth, String address) {
-        this.name = name;
+    public Patient(String patientName, String dateOfBirth, String address) {
+        this.patientName = patientName;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
         this.medicalRecord = "";
@@ -31,7 +31,7 @@ public class Patient implements PatientRecordInterface {
 
     // manage alternate flows
     public String registerPatient() {
-        if (name.isEmpty() || dateOfBirth.isEmpty() || address.isEmpty()) {
+        if (patientName.isEmpty() || dateOfBirth.isEmpty() || address.isEmpty()) {
             return "Registration failed: All fields are required.";
         }
 
