@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
-* @author Yunpeng Lyu
+* @author Yunpeng Lyu, Cole Stuedeman
 *
 * Manages patient records
 *
