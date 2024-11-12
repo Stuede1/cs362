@@ -59,20 +59,26 @@ public class MainTest {
 
 
 
+        System.out.println("\n=== Test Case 0: Retrieve All Doctors ===");
+        List<Doctor> allDoctors = Doctor.getAllDoctors();
+        for (Doctor doc : allDoctors) {
+            System.out.println("Doctor ID: " + doc.getDoctorID() + ", Name: " + doc.getName());
+        }
 
 
         // Test Case 1: Save new doctors to file
-        Doctor doctor1 = new Doctor("D004", "Dr. David Brown");
+        
         System.out.println("=== Test Case 1: Save Doctor ===");
+        Doctor doctor1 = new Doctor("D004", "Dr. David Brown");
         System.out.println(doctor1.saveDoctor());
 
         Doctor doctor2 = new Doctor("D005", "Dr. Emma Wilson");
         System.out.println(doctor2.saveDoctor());
 
         // Test Case 2: Retrieve all doctors
-        System.out.println("\n=== Test Case 2: Retrieve All Doctors ===");
-        List<Doctor> allDoctors = Doctor.getAllDoctors();
-        for (Doctor doc : allDoctors) {
+        System.out.println("\n=== Test Case 2: Retrieve All Doctors after adding ===");
+        List<Doctor> allDoctors2 = Doctor.getAllDoctors();
+        for (Doctor doc : allDoctors2) {
             System.out.println("Doctor ID: " + doc.getDoctorID() + ", Name: " + doc.getName());
         }
 
@@ -95,5 +101,58 @@ public class MainTest {
         } else {
             System.out.println("Doctor with ID " + searchID + " not found.");
         }
+    
+
+
+
+
+    // Test Case 1: Schedule a new appointment
+    Patient patient = new Patient("P001", "John Doe", "555-1234");
+    Doctor doctor = new Doctor("D001", "Dr. Alice Smith");
+    Appointment appointment1 = new Appointment("2024-11-15", "10:00 AM", patient, doctor);
+
+    System.out.println("=== Test Case 1: Schedule Appointment ===");
+    System.out.println(appointment1.scheduleAppointment());
+
+    // Test Case 2: Attempt to schedule another appointment at the same time for the same doctor
+    Patient patientt = new Patient("P002", "Jane Doe", "555-5678");
+    Appointment appointment2 = new Appointment("2024-11-15", "10:00 AM", patientt, doctor1);
+
+    System.out.println("\n=== Test Case 2: Schedule Conflicting Appointment ===");
+    System.out.println(appointment2.scheduleAppointment());
+
+    // Test Case 3: Retrieve all appointments from the file
+    System.out.println("\n=== Test Case 3: Retrieve All Appointments ===");
+    List<Appointment> allAppointments = Appointment.getAllAppointments();
+    for (Appointment app : allAppointments) {
+        System.out.println("Appointment ID: " + app.appointmentID + ", Date: " + app.date + ", Time: " + app.time +
+                ", Patient ID: " + app.patient.getPatientID() + ", Doctor ID: " + app.doctor.getDoctorID());
     }
+
+    // Test Case 4: Retrieve all appointments for a specific doctor
+    System.out.println("\n=== Test Case 4: Retrieve Appointments for Doctor ===");
+    List<Appointment> doctorAppointments = Appointment.getAllAppointmentsForDoctor(doctor1.getDoctorID());
+    for (Appointment app : doctorAppointments) {
+        System.out.println("Appointment ID: " + app.appointmentID + ", Date: " + app.date + ", Time: " + app.time +
+                ", Patient ID: " + app.patient.getPatientID() + ", Doctor ID: " + app.doctor.getDoctorID());
+    }
+
+    // Test Case 5: Schedule an appointment at a different time (no conflict)
+    Appointment appointment3 = new Appointment("2024-11-15", "11:00 AM", patient1, doctor1);
+
+    System.out.println("\n=== Test Case 5: Schedule Non-Conflicting Appointment ===");
+    System.out.println(appointment3.scheduleAppointment());
+
+    // Test Case 6: Verify a non-existent doctor returns no appointments
+    System.out.println("\n=== Test Case 6: Retrieve Appointments for Non-Existent Doctor ===");
+    List<Appointment> nonExistentDoctorAppointments = Appointment.getAllAppointmentsForDoctor("D999");
+    if (nonExistentDoctorAppointments.isEmpty()) {
+        System.out.println("No appointments found for Doctor ID: D999");
+    } else {
+        for (Appointment app : nonExistentDoctorAppointments) {
+            System.out.println("Appointment ID: " + app.appointmentID + ", Date: " + app.date + ", Time: " + app.time +
+                    ", Patient ID: " + app.patient.getPatientID() + ", Doctor ID: " + app.doctor.getDoctorID());
+        }
+    }
+}
 }

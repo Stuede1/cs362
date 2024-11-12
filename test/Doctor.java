@@ -35,9 +35,9 @@ public class Doctor {
     // Saves the current doctor's information to doctor.txt
     public String saveDoctor() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(DOCTOR_FILE, true))) {
-            writer.write(doctorID + "," + doctorName + "\n");
+            writer.write(doctorID + "," + doctorName + " ");
             writer.newLine();
-            return "Doctor saved successfully. Doctor ID: " + doctorID;
+            return "Doctor saved successfully. Doctor ID: " + doctorID + " Name:" + doctorName;
         } catch (IOException e) {
             return "Failed to save doctor: " + e.getMessage();
         }
