@@ -2,6 +2,7 @@ import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +15,12 @@ import java.util.List;
 */
 
 public class Inventory implements InventoryManagementInterface {
-    private String itemName;
-    private int quantity;
-    private static final String INVENTORY_FILE = "inventory.txt";
+    String itemName;
+    int quantity;
+    private static final String INVENTORY_FILE = "files\\inventory.txt";
+
+    // private static final String INVENTORY_FILE = "cs362/test/files/inventory.txt";
+
 
     public Inventory(String itemName, int quantity) {
         this.itemName = itemName;
@@ -24,19 +28,41 @@ public class Inventory implements InventoryManagementInterface {
     }
 
     // Retrieve all items from inventory
-    public static List<Inventory> getAllItems() {
-        List<Inventory> items = new ArrayList<>();
-        try {
-            List<String> lines = Files.readAllLines(Paths.get(INVENTORY_FILE));
-            for (String line : lines) {
-                String[] data = line.split(",");
-                items.add(new Inventory(data[0], Integer.parseInt(data[1])));
-            }
-        } catch (IOException e) {
-            System.out.println("Error reading inventory file: " + e.getMessage());
-        }
+public static List<Inventory> getAllItems() {
+    List<Inventory> items = new ArrayList<>();
+    Path path = Paths.get(INVENTORY_FILE);
+
+    if (!Files.exists(path)) {
+        System.out.println("Inventory file not found at: " + path.toAbsolutePath());
         return items;
     }
+
+    try {
+        List<String> lines = Files.readAllLines(path);
+        for (String line : lines) {
+            line = line.trim(); // Trim any leading or trailing whitespace
+            if (line.isEmpty()) {
+                continue; // Skip empty lines
+            }
+
+            String[] data = line.split(",");
+            if (data.length < 2) {
+                System.out.println("Skipping malformed line: " + line);
+                continue; // Skip this iteration if there are not enough parts
+            }
+            try {
+                int quantity = Integer.parseInt(data[1].trim()); // Safely trim and parse the quantity
+                items.add(new Inventory(data[0].trim(), quantity));
+            } catch (NumberFormatException e) {
+                System.out.println("Invalid quantity for item " + data[0] + " on line: " + line + "; Error: " + e.getMessage());
+            }
+        }
+    } catch (IOException e) {
+        System.out.println("Error reading inventory file: " + e.getMessage());
+    }
+    return items;
+}
+
 
     // Update inventory item
     public static String updateInventory(String itemName, int newQuantity) {
