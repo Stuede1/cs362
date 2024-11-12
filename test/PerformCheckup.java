@@ -14,13 +14,13 @@ public class PerformCheckup {
        
         // Check if patient and doctor exist
         if (!pdExist(patientId, doctorId)) {
-            System.out.println("Patient or doctor not found in the hospital system.");
+            System.out.println("Patient or doctor not found in the hospital system");
             return;
         }
     
         // Check if the patient has scheduled an appointment and is due for a checkup
         if (!checkAppointment(patientId)) {
-            System.out.println("Patient has no scheduled appointments.");
+            System.out.println("Patient has no scheduled appointments");
             return;
         }
     
@@ -40,14 +40,14 @@ public class PerformCheckup {
     
     private boolean performHealthCheck(String patientId) {
         // Simulate health check process
-        System.out.println("Performing health check for patient " + patientId + "...");
+        System.out.println("Performing health check for patient: " + patientId);
         // Assume we find some health issues
         return true;  // Return true to simulate issues found
     }
     
     private boolean needsFollowUp(String patientId) {
         // Simulate a check if the patient needs a follow-up
-        return true;
+        return false;
     }
     
     private boolean pdExist(String patientId, String doctorId) {
@@ -73,3 +73,4 @@ public class PerformCheckup {
         // hospitalSystem.scheduleAppointment(patientId, doctorId);
     }
 }
+//test
