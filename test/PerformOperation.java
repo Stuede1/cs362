@@ -18,7 +18,6 @@ public class PerformOperation {
         this.isOperationSuccessful = false;
     }
 
-    // Method to perform the operation
     public void perform() { // to do for next iteration
         // Step 1: Check if the patient has scheduled an appointment or checked in for emergency care
         
