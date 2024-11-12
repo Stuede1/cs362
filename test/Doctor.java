@@ -16,20 +16,25 @@ import java.util.List;
 public class Doctor {
     private String doctorID;
     private String doctorName;
-
+    private String doctorSpecialty;
     private static final String DOCTOR_FILE = "cs362\\test\\files\\doctors.txt"; // File to store doctor records
 
     public Doctor(String doctorID, String doctorName) {
         this.doctorID = doctorID;
         this.doctorName = doctorName;
+        this.doctorSpecialty = doctorSpecialty;
     }
 
     public String getDoctorID() {
         return doctorID;
     }
 
-    public String getName() {
+    public String getDoctorName() {
         return doctorName;
+    }
+
+    public String getDoctorSpecialty(){
+        return doctorSpecialty;
     }
 
     // Saves the current doctor's information to doctor.txt
