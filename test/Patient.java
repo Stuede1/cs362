@@ -14,14 +14,15 @@ import java.util.List;
 */
 
 public class Patient implements PatientRecordInterface {
-    private String patientID;
-    private String patientName;
-    private String dateOfBirth;
-    private String address;
-    private String medicalRecord;
+    private static int patientCounter = 0;
+     String patientID;
+     String patientName;
+     String dateOfBirth;
+    String address;
+     String medicalRecord;
 
     // File path for storing patient records
-    private static final String PATIENT_FILE = "patients.txt";
+    private static final String PATIENT_FILE = "C:\\Users\\cstue\\Documents\\cs362\\test\\patients.txt";
 
     public Patient(String patientName, String dateOfBirth, String address) {
         this.patientName = patientName;
@@ -33,7 +34,7 @@ public class Patient implements PatientRecordInterface {
 
     // Generates a unique patient ID
     private String generatePatientID() {
-        return "P" + (getAllPatients().size() + 1);
+        return "P" + (++patientCounter); // Increment and return new ID
     }
 
     // manage alternate flows
@@ -83,16 +84,13 @@ public class Patient implements PatientRecordInterface {
             List<String> lines = Files.readAllLines(Paths.get(PATIENT_FILE));
             for (String line : lines) {
                 String[] data = line.split(",");
-                // patients.add(new Patient(data[1], data[2], data[3])); // Assuming the order
-                // is ID, Name, DOB, Address
-                // patients.get(patients.size() - 1).patientID = data[0]; // Set the ID for the
-                // patient
-
-                // updated code that will handle medicalRecord
+                if (data.length < 5) {
+                    System.out.println("Skipping incomplete patient record: " + line);
+                    continue;
+                }
                 Patient patient = new Patient(data[1], data[2], data[3]);
-                patient.medicalRecord = data[4];
-                patients.get(patients.size() - 1).patientID = data[0];
                 patient.patientID = data[0];
+                patient.medicalRecord = data[4];
                 patients.add(patient);
             }
         } catch (IOException e) {
