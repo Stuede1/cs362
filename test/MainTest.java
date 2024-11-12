@@ -52,7 +52,7 @@ public class MainTest {
         System.out.println("\n=== Log Record Access Attempt ===");
         boolean logResult = patient1.logRecordAccess("John", patient1.getPatientID(), accessResult);
         System.out.println("Log record access: " + (logResult ? "Logged" : "Failed to log"));
-
+        
 
 
 

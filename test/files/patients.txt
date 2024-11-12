@@ -1,3 +1,3 @@
-P3,Rick Morris,1967-03-02,574 Birch Av,""
-P4,David Robinson, 1969-10-10,456 Ash St,""
+P1,John Doe,1985-03-21,123 Elm St,Diagnosed with seasonal allergies.
+Prescribed antihistamines.
 

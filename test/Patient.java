@@ -22,7 +22,7 @@ public class Patient implements PatientRecordInterface {
      String medicalRecord;
 
     // File path for storing patient records
-    private static final String PATIENT_FILE = "cs362\\test\\files\\patients.txt";
+    private static final String PATIENT_FILE = "files\\patients.txt";
 
     public Patient(String patientName, String dateOfBirth, String address) {
         this.patientName = patientName;
