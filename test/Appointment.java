@@ -13,14 +13,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Appointment implements AppointmentInterface {
-    private String appointmentID;
-    private String date;
-    private String time;
-    private Patient patient;
-    private Doctor doctor;
+     String appointmentID;
+     String date;
+     String time;
+     Patient patient;
+     Doctor doctor;
 
     // File path for storing appointment records
-    private static final String APPOINTMENT_FILE = "appointments.txt";
+    private static final String APPOINTMENT_FILE = "cs362\\test\\files\\appointments.txt";
+    private static int lastAppointmentID = 0;
 
     public Appointment(String date, String time, Patient patient, Doctor doctor) {
         this.date = date;
@@ -32,20 +33,23 @@ public class Appointment implements AppointmentInterface {
 
     // Generates a unique appointment ID
     private String generateAppointmentID() {
-        return "A" + (getAllAppointments().size() + 1);
+        lastAppointmentID++;
+        return "A" + lastAppointmentID;
     }
 
+
+    // Method to schedule an appointment with conflict checking
     public String scheduleAppointment() {
         List<Appointment> appointmentsForDoctor = getAllAppointmentsForDoctor(doctor.getDoctorID());
-        
-        // Check for time conflicts
+
+        // Check for time conflicts with other appointments of the same doctor
         for (Appointment appointment : appointmentsForDoctor) {
             if (appointment.date.equals(this.date) && appointment.time.equals(this.time)) {
                 return "Scheduling failed: Doctor is unavailable at this time.";
             }
         }
-        
-        // If no conflicts, save the appointment
+
+        // If no conflicts, save the appointment to file
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(APPOINTMENT_FILE, true))) {
             writer.write(appointmentID + "," + date + "," + time + "," + patient.getPatientID() + "," + doctor.getDoctorID());
             writer.newLine();
@@ -54,7 +58,7 @@ public class Appointment implements AppointmentInterface {
             return "Scheduling failed: " + e.getMessage();
         }
     }
-    
+
     // Retrieve all appointments from the file
     public static List<Appointment> getAllAppointments() {
         List<Appointment> appointments = new ArrayList<>();
@@ -62,8 +66,13 @@ public class Appointment implements AppointmentInterface {
             List<String> lines = Files.readAllLines(Paths.get(APPOINTMENT_FILE));
             for (String line : lines) {
                 String[] data = line.split(",");
-                appointments.add(new Appointment(data[1], data[2], new Patient(data[3], "", ""), new Doctor(data[4], ""))); // Load patient and doctor
-                appointments.get(appointments.size() - 1).appointmentID = data[0]; // Set the ID for the appointment
+                if (data.length == 5) { // Ensure proper data length to avoid IndexOutOfBoundsException
+                    Patient patient = new Patient(data[3], "", "");
+                    Doctor doctor = new Doctor(data[4], "");
+                    Appointment appointment = new Appointment(data[1], data[2], patient, doctor);
+                    appointment.appointmentID = data[0];
+                    appointments.add(appointment);
+                }
             }
         } catch (IOException e) {
             System.out.println("Error reading appointment file: " + e.getMessage());
@@ -80,6 +89,13 @@ public class Appointment implements AppointmentInterface {
             }
         }
         return appointments;
+    }
+
+    // Override toString for better output readability in tests
+    @Override
+    public String toString() {
+        return "Appointment ID: " + appointmentID + ", Date: " + date + ", Time: " + time +
+                ", Patient ID: " + patient.getPatientID() + ", Doctor ID: " + doctor.getDoctorID();
     }
 
     @Override
@@ -111,9 +127,4 @@ public class Appointment implements AppointmentInterface {
     public boolean cancelAppointment(String appointmentId) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
-
-
-
-    
 }
