@@ -7,17 +7,19 @@ public class MainTest {
         System.out.println("=== Patient Registration Tests ===");
         Patient patient1 = new Patient("John Doe", "1985-03-21", "123 Elm St");
         String registrationResult1 = patient1.registerPatient();
-        System.out.println(registrationResult1);
+        System.out.println(registrationResult1 + " Patient Name: " + patient1.patientName);
 
         Patient patient2 = new Patient("Jane Smith", "1990-07-15", "456 Oak St");
         String registrationResult2 = patient2.registerPatient();
-        System.out.println(registrationResult2);
+        System.out.println(registrationResult2 + " Patient Name: " + patient2.patientName);
 
+
+        // Trying to add patient with no name
         Patient patient3 = new Patient("", "2000-05-10", "789 Pine St"); // Missing name
         String registrationResult3 = patient3.registerPatient();
-        System.out.println(registrationResult3);
+        System.out.println(registrationResult3 + " Patient Name" + patient3.patientName);
 
-        // Testing retrieval of all patients
+        // Testing retrieval of all patients, skipping because not all feilds have been implimented in this iteration
         System.out.println("\n=== Retrieve All Patients ===");
         List<Patient> allPatients = Patient.getAllPatients();
         for (Patient p : allPatients) {
@@ -48,7 +50,7 @@ public class MainTest {
 
         // Testing logging record access attempt
         System.out.println("\n=== Log Record Access Attempt ===");
-        boolean logResult = patient1.logRecordAccess("User123", patient1.getPatientID(), accessResult);
+        boolean logResult = patient1.logRecordAccess("John Doe", patient1.getPatientID(), accessResult);
         System.out.println("Log record access: " + (logResult ? "Logged" : "Failed to log"));
 
 
