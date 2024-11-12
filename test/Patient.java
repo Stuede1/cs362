@@ -28,7 +28,7 @@ public class Patient implements PatientRecordInterface {
         this.patientName = patientName;
         this.dateOfBirth = dateOfBirth;
         this.address = address;
-        this.medicalRecord = "";
+        this.medicalRecord = " ";
         this.patientID = generatePatientID();
     }
 

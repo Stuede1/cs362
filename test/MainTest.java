@@ -29,13 +29,13 @@ public class MainTest {
         // Testing access to a patient record
         System.out.println("\n=== Access Patient Record ===");
         boolean accessResult = patient1.accessPatientRecord(patient1.getPatientID());
-        System.out.println("Access patient " + patient1.getPatientID() + ": " + (accessResult ? "Success" : "Failure"));
+        System.out.println("Access patient " + patient1.getPatientID() + ": " + (accessResult ? "Success " + patient1.patientName : "Failure"));
 
         // Testing medical record updates
         System.out.println("\n=== Update Patient Medical Record ===");
         String updateResult1 = patient1.updateMedicalRecord("Diagnosed with seasonal allergies.");
         System.out.println(updateResult1);
-        String updateResult2 = patient1.updateMedicalRecord("Prescribed antihistamines.");
+        String updateResult2 = patient2.updateMedicalRecord("Prescribed antihistamines.");
         System.out.println(updateResult2);
 
         // Testing retrieval of patient medical records to ensure updates were saved
@@ -50,7 +50,7 @@ public class MainTest {
 
         // Testing logging record access attempt
         System.out.println("\n=== Log Record Access Attempt ===");
-        boolean logResult = patient1.logRecordAccess("John Doe", patient1.getPatientID(), accessResult);
+        boolean logResult = patient1.logRecordAccess("John", patient1.getPatientID(), accessResult);
         System.out.println("Log record access: " + (logResult ? "Logged" : "Failed to log"));
 
 

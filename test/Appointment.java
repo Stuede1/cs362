@@ -21,7 +21,7 @@ public class Appointment implements AppointmentInterface {
 
     // File path for storing appointment records
     private static final String APPOINTMENT_FILE = "cs362\\test\\files\\appointments.txt";
-    private static int lastAppointmentID = 0;
+     private static int lastAppointmentID = 0;
 
     public Appointment(String date, String time, Patient patient, Doctor doctor) {
         this.date = date;
