@@ -1,4 +1,8 @@
 import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 
 public class PatientTest {
 
@@ -19,10 +23,17 @@ public class PatientTest {
         System.out.println(newPatient2.registerPatient() + " - Patient ID: " + newPatient2.getPatientID());
 
         System.out.println("\n=== Update Medical Records ===");
-        // Update medical records for the first new patient
+        // Update medical records for the first new patient with time stamp
         if (!initialPatients.isEmpty()) {
             Patient patientToUpdate = initialPatients.get(0);
-            patientToUpdate.updateMedicalRecord("Added vaccination record.");
+
+
+            LocalDateTime now = LocalDateTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String formattedDateTime = now.format(formatter);
+            patientToUpdate.updateMedicalRecord("Added vaccination record at time " + formattedDateTime);
+
+
             System.out.println("Updated medical record for " + patientToUpdate.getPatientID());
         }
 
