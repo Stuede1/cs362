@@ -1,0 +1,4 @@
+Bandage,150
+Knife,20
+chair,150
+Wheelchair,300
