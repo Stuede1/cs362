@@ -1,8 +1,6 @@
 /**
 * @author Nick Riggio
 *
-* Student is the Information Expert that knows about Grades.
-*
 */
 public class PerformOperation {
     private String operationName;
