@@ -73,4 +73,3 @@ public class PerformCheckup {
         // hospitalSystem.scheduleAppointment(patientId, doctorId);
     }
 }
-//test
