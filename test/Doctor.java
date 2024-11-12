@@ -28,7 +28,7 @@ public class Doctor {
         return doctorID;
     }
 
-    public String getName() {
+    public String getDoctorName() {
         return doctorName;
     }
 
