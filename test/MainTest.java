@@ -50,5 +50,50 @@ public class MainTest {
         System.out.println("\n=== Log Record Access Attempt ===");
         boolean logResult = patient1.logRecordAccess("User123", patient1.getPatientID(), accessResult);
         System.out.println("Log record access: " + (logResult ? "Logged" : "Failed to log"));
+
+
+
+
+
+
+
+
+
+
+
+        // Test Case 1: Save new doctors to file
+        Doctor doctor1 = new Doctor("D004", "Dr. David Brown");
+        System.out.println("=== Test Case 1: Save Doctor ===");
+        System.out.println(doctor1.saveDoctor());
+
+        Doctor doctor2 = new Doctor("D005", "Dr. Emma Wilson");
+        System.out.println(doctor2.saveDoctor());
+
+        // Test Case 2: Retrieve all doctors
+        System.out.println("\n=== Test Case 2: Retrieve All Doctors ===");
+        List<Doctor> allDoctors = Doctor.getAllDoctors();
+        for (Doctor doc : allDoctors) {
+            System.out.println("Doctor ID: " + doc.getDoctorID() + ", Name: " + doc.getName());
+        }
+
+        // Test Case 3: Find a doctor by ID
+        System.out.println("\n=== Test Case 3: Find Doctor by ID ===");
+        String searchID = "D002";
+        Doctor foundDoctor = Doctor.findDoctorByID(searchID);
+        if (foundDoctor != null) {
+            System.out.println("Found Doctor - ID: " + foundDoctor.getDoctorID() + ", Name: " + foundDoctor.getName());
+        } else {
+            System.out.println("Doctor with ID " + searchID + " not found.");
+        }
+
+        // Test Case 4: Attempt to find a non-existent doctor
+        System.out.println("\n=== Test Case 4: Find Non-Existent Doctor ===");
+        searchID = "D999";
+        foundDoctor = Doctor.findDoctorByID(searchID);
+        if (foundDoctor != null) {
+            System.out.println("Found Doctor - ID: " + foundDoctor.getDoctorID() + ", Name: " + foundDoctor.getName());
+        } else {
+            System.out.println("Doctor with ID " + searchID + " not found.");
+        }
     }
 }
