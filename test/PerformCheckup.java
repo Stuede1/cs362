@@ -1,8 +1,6 @@
 /**
 * @author Nick Riggio
 *
-* Student is the Information Expert that knows about Grades.
-*
 */
 public class PerformCheckup {
 
@@ -14,15 +12,13 @@ public class PerformCheckup {
 
     public void performCheckup(String patientId, String doctorId) {
        
-         //ToDo:
         // Check if patient and doctor exist
-        
-        //ToDo:
+        pdExist(patientId, doctorId);
 
         // Check if the patient has scheduled an appointment and is due for a checkup
     
         // Perform the checkup
-        
+        performHealthCheck(patientId);
 
         // Simulate the checkup process
 
@@ -42,4 +38,8 @@ public class PerformCheckup {
         return true;
     }
 
+    private boolean pdExist(String patientId, String doctorId) {
+        // Check hospital system for the doctor and patient Id
+        return true;
+    }
 }
