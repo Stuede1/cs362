@@ -138,5 +138,9 @@ public class Patient implements PatientRecordInterface {
         return true;
     }
 
+    // Getter for patient name
+public String getPatientName() {
+    return patientName;
+}
     // Other getters and setters can be added here
 }
