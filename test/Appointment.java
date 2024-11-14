@@ -13,30 +13,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Appointment implements AppointmentInterface {
-     String appointmentID;
-     String date;
-     String time;
-     Patient patient;
-     Doctor doctor;
+    String appointmentID;
+    String date;
+    String time;
+    Patient patient;
+    Doctor doctor;
 
     // File path for storing appointment records
     private static final String APPOINTMENT_FILE = "cs362\\test\\files\\appointments.txt";
-     private static int lastAppointmentID = 0;
 
-    public Appointment(String date, String time, Patient patient, Doctor doctor) {
+    public Appointment(String appointmentID, String date, String time, Patient patient, Doctor doctor) {
+        this.appointmentID = appointmentID; // Set provided appointment ID
         this.date = date;
         this.time = time;
         this.patient = patient;
         this.doctor = doctor;
-        this.appointmentID = generateAppointmentID();
     }
-
-    // Generates a unique appointment ID
-    private String generateAppointmentID() {
-        lastAppointmentID++;
-        return "A" + lastAppointmentID;
-    }
-
 
     // Method to schedule an appointment with conflict checking
     public String scheduleAppointment() {
@@ -69,8 +61,7 @@ public class Appointment implements AppointmentInterface {
                 if (data.length == 5) { // Ensure proper data length to avoid IndexOutOfBoundsException
                     Patient patient = new Patient(data[3], "", "");
                     Doctor doctor = new Doctor(data[4], "");
-                    Appointment appointment = new Appointment(data[1], data[2], patient, doctor);
-                    appointment.appointmentID = data[0];
+                    Appointment appointment = new Appointment(data[0], data[1], data[2], patient, doctor); // Pass appointmentID as part of constructor
                     appointments.add(appointment);
                 }
             }
