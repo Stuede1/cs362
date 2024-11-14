@@ -1,75 +1,54 @@
-/**
-* @author Cole Stuedeman
-*
-* Student is the Information Expert that knows about Grades.
-*
-*/
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+
 public class OrderMedication {
+    private String doctorID;
+    private String doctorName;
+    private String patientID;
+    private String patientName;
+    private String medicationName;
+    private String dosage;
+    private String frequency;
 
-    private Pharmacy pharmacy;
-    private Nurse nurse;
-    private HospitalSystem hospitalSystem;
+    // File path for saving medication orders
+    private static final String MEDICATION_ORDER_FILE = "cs362\\test\\files\\medication.txt";
 
-    // Constructor to initialize dependencies
-    public OrderMedication(Pharmacy pharmacy, Nurse nurse, HospitalSystem hospitalSystem) {
-        this.pharmacy = pharmacy;
-        this.nurse = nurse;
-        this.hospitalSystem = hospitalSystem;
+    // Constructor to initialize the OrderMedication with Doctor, Patient, and Medication details
+    public OrderMedication(String doctorID, String doctorName, String patientID, String patientName, String medicationName, String dosage, String frequency) {
+        this.doctorID = doctorID;
+        this.doctorName = doctorName;
+        this.patientID = patientID;
+        this.patientName = patientName;
+        this.medicationName = medicationName;
+        this.dosage = dosage;
+        this.frequency = frequency;
     }
 
-    // Method to handle the medication order process
-    public boolean orderMedication(String doctorId, String patientId, String medicationName, double dosage, String frequency, int duration) {
-        return false;
+    // Method to order medication and save to file
+    public String orderMedication() {
+        // Creating the order string
+        String orderDetails = doctorID + "," + doctorName + ","
+                + patientID + "," + patientName + ","
+                + medicationName + "," + dosage + "," + frequency;
+
+        // Save order details to file
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(MEDICATION_ORDER_FILE, true))) {
+            writer.write(orderDetails);
+            writer.newLine();
+            return "Medication ordered successfully for patient: " + patientName;
+        } catch (IOException e) {
+            return "Error ordering medication: " + e.getMessage();
+        }
     }
 
-    // Handle alternative medication selection
-    public boolean handleAlternativeMedication(String doctorId, String patientId, String alternativeMedication, double dosage, String frequency, int duration) {
-        System.out.println("Ordering alternative medication...");
-        return orderMedication(doctorId, patientId, alternativeMedication, dosage, frequency, duration);
-    }
-
-    // Inner class for representing a medication order
-    private class MedicationOrder {
-        private String patientId;
-        private String doctorId;
-        private String medicationName;
-        private double dosage;
-        private String frequency;
-        private int duration;
-
-        // Constructor for the MedicationOrder
-        public MedicationOrder(String patientId, String doctorId, String medicationName, double dosage, String frequency, int duration) {
-            this.patientId = patientId;
-            this.doctorId = doctorId;
-            this.medicationName = medicationName;
-            this.dosage = dosage;
-            this.frequency = frequency;
-            this.duration = duration;
-        }
-
-        // Getter methods for medication order details
-        public String getPatientId() {
-            return patientId;
-        }
-
-        public String getDoctorId() {
-            return doctorId;
-        }
-
-        public String getMedicationName() {
-            return medicationName;
-        }
-
-        public double getDosage() {
-            return dosage;
-        }
-
-        public String getFrequency() {
-            return frequency;
-        }
-
-        public int getDuration() {
-            return duration;
-        }
+    // Method to print the order details for confirmation
+    public void printOrderDetails() {
+        System.out.println("Order Details:");
+        System.out.println("Doctor: " + doctorName + " (" + doctorID + ")");
+        System.out.println("Patient: " + patientName + " (" + patientID + ")");
+        System.out.println("Medication: " + medicationName);
+        System.out.println("Dosage: " + dosage);
+        System.out.println("Frequency: " + frequency);
     }
 }
