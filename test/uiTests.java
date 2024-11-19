@@ -1,13 +1,13 @@
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class uiTests {
-    private static List<Patient> patients = new ArrayList<>();
+    private static List<Patient> patients = Patient.getAllPatients();
     private static Scanner scanner = new Scanner(System.in);
 
     public static void main(String[] args) {
         while (true) {
+            
             System.out.println("\n=== Patient Management System ===");
             System.out.println("1. Register Patient");
             System.out.println("2. Access Patient Record");
@@ -51,13 +51,21 @@ public class uiTests {
     private static void accessPatientRecord() {
         System.out.print("Enter Patient ID to access: ");
         String patientID = scanner.nextLine();
+        
+        // Load all patients from the file
+        
+        
+        // Check if patient with given ID exists
         for (Patient p : patients) {
             if (p.getPatientID().equals(patientID)) {
                 boolean accessResult = p.accessPatientRecord(patientID);
-                System.out.println("Access patient " + patientID + ": " + (accessResult ? "Success - " + p.getPatientName() : "Failure"));
+                System.out.println("Access patient " + patientID + ": " 
+                    + (accessResult ? "Success - " + p.getPatientName() : "Failure"));
                 return;
             }
         }
+        
+        // If no patient was found with the specified ID
         System.out.println("Patient not found.");
     }
 
@@ -79,7 +87,7 @@ public class uiTests {
     private static void retrieveAllPatients() {
         System.out.println("=== All Registered Patients ===");
         for (Patient p : patients) {
-            System.out.println("Patient ID: " + p.getPatientID() + ", Name: " + p.getPatientName());
+            System.out.println("Patient ID: " + p.getPatientID() + ", Name: " + p.getPatientName() + " DOB: " + p.dateOfBirth +" Medication: " + p.medicalRecord);
         }
     }
 

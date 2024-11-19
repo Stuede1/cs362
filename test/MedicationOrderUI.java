@@ -34,7 +34,7 @@ public class MedicationOrderUI {
         }
 
         // Get Patient Name if validation is successful
-        //String patientName = patient.getPatientName();
+        String patientName = patient.getPatientName();
 
         // Get Medication details
         String medicationName = "";

@@ -144,15 +144,15 @@ public String getPatientName() {
 }
     // Other getters and setters can be added here
     public static Patient findPatientByID(String patientID) {
-        // Here, we are assuming the existence of a list of all patients.
-        // This list might be stored in a database or as a static list in memory.
-        List<Patient> patients = getAllPatients(); // getAllPatients() retrieves the list of patients.
-
+        // Retrieve all patients from the file
+        List<Patient> patients = getAllPatients();
+        
+        // Search for a patient with the specified ID
         for (Patient patient : patients) {
             if (patient.getPatientID().equals(patientID)) {
-                return patient; // Return patient if ID matches
+                return patient; // Return the patient if a match is found
             }
         }
-        return null; // Return null if patient is not found
+        return null; // Return null if no matching patient is found
     }
 }

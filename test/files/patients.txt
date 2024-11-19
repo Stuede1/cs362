@@ -1,4 +1,4 @@
 P3,Rick Morris,1983-05-12,633 Ash Ave,""
 P4,Ashton Jeffery,1978-06-11,544 Gable Ln,""
-P1,Cole,2002-19-12,1314 110th st, Diagnosed with cancer
-
+P5,Josh Whittington,2001-10-14,Ames, Iowa, 
+P4,Cole Stuedeman,2002-12-18,218 Ash Ave, Ames, 

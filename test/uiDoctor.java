@@ -22,21 +22,14 @@ public class uiDoctor {
             scanner.nextLine();  // Consume newline
 
             switch (choice) {
-                case 1:
-                    viewAllDoctors();
-                    break;
-                case 2:
-                    saveNewDoctor(scanner);
-                    break;
-                case 3:
-                    findDoctorByID(scanner);
-                    break;
-                case 4:
+                case 1 -> viewAllDoctors();
+                case 2 -> saveNewDoctor(scanner);
+                case 3 -> findDoctorByID(scanner);
+                case 4 -> {
                     System.out.println("Exiting the system. Goodbye!");
                     exit = true;
-                    break;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
+                }
+                default -> System.out.println("Invalid choice. Please try again.");
             }
         }
         scanner.close();
