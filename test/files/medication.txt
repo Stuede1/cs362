@@ -2,3 +2,4 @@ D003,Dr. Carol Lee,P4,Ashton Jeffery,Athsma,50mg,Once
 D003,Dr. Carol Lee,P1,Cole,Advil,50,twice a day
 D003,Dr. Carol LeeD,P3,Rick Morris,Athsma,100mg,Twice a Day
 D004,Jeff ,P5,Josh Whittington,Nyquill,100mg,Twice a day
+D004,Jeff Clark ,P3,Rick Morris,Adler,50mg,Four

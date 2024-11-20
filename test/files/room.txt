@@ -1,0 +1,6 @@
+Room101, Available, Single
+Room102, Occupied, Double
+Room103, Available, Single
+Room104, Occupied, Suite
+Room105, Available, Single
+Room106, Occupied, Double

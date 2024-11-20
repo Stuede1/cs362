@@ -1,0 +1,15 @@
+Staff ID: 8, Task: Wash the bed
+Step: remove
+Step: wash
+Step: dry
+Step: replace
+
+Staff ID: 8, Task: Clean the bed
+Step: run
+Step: spot
+Step: run
+
+Staff ID: 9 Name: Ivy, Task: run
+Step: set
+Step: hut
+

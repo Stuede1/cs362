@@ -17,7 +17,7 @@ public class Doctor {
     private String doctorID;
     private String doctorName;
     private String doctorSpecialty;
-    private static final String DOCTOR_FILE = "cs362\\test\\files\\doctors.txt"; // File to store doctor records
+    private static final String DOCTOR_FILE = ".\\files\\doctors.txt"; // File to store doctor records
 
     public Doctor(String doctorID, String doctorName) {
         this.doctorID = doctorID;
