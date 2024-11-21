@@ -1,12 +1,15 @@
 public class Ambulance {
+
     private String id;
     private boolean available;
     private String assignedPatient;
+    private String assignedCondition;
 
-    public Ambulance(String id, boolean available, String assignedPatient) {
+    public Ambulance(String id, boolean available, String assignedPatient, String assignedCondition) {
         this.id = id;
         this.available = available;
-        this.assignedPatient = assignedPatient;
+        this.assignedPatient = assignedPatient != null ? assignedPatient : "None";
+        this.assignedCondition = assignedCondition != null ? assignedCondition : "None";
     }
 
     public String getId() {
@@ -26,13 +29,20 @@ public class Ambulance {
     }
 
     public void setAssignedPatient(String assignedPatient) {
-        this.assignedPatient = assignedPatient;
+        this.assignedPatient = assignedPatient != null ? assignedPatient : "None";
+    }
+
+    public String getAssignedCondition() {
+        return assignedCondition;
+    }
+
+    public void setAssignedCondition(String assignedCondition) {
+        this.assignedCondition = assignedCondition != null ? assignedCondition : "None";
     }
 
     @Override
     public String toString() {
-        return id + ", " + 
-               (available ? "Available" : "Unavailable") + ", " +
-               (assignedPatient.equals("None") ? "None" : assignedPatient);
+        return id + ", " + (available ? "Available" : "Unavailable") + ", " +
+                assignedPatient + ", " + assignedCondition;
     }
 }
