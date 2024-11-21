@@ -20,6 +20,11 @@ public class Patient implements PatientRecordInterface {
      String dateOfBirth;
     String address;
      String medicalRecord;
+     private String dietaryRestrictions;
+     private String currentRoom;
+     private String mealPlan;
+     private boolean mealPlanStatus;
+     private String dietaryNeeds;
 
     // File path for storing patient records
     private static final String PATIENT_FILE = ".\\files\\patients.txt";
@@ -32,6 +37,25 @@ public class Patient implements PatientRecordInterface {
         this.patientID = generatePatientID();
     }
 
+    public Patient(String patientName, String dateOfBirth, String address, String currentRoom, String dietaryRestrictions) {
+        this.patientName = patientName;
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
+        this.currentRoom = currentRoom; 
+        this.dietaryRestrictions = dietaryRestrictions;
+        this.medicalRecord = " ";
+        this.patientID = generatePatientID();
+    }
+
+    public Patient(String patientName, String dietaryNeeds, String dietaryRestrictions, String currentRoom) {
+        this.patientName = patientName;
+        this.dietaryNeeds = dietaryNeeds;
+        this.dietaryRestrictions = dietaryRestrictions;
+        this.currentRoom = currentRoom;
+        this.patientID = generatePatientID();
+        this.mealPlanStatus = false;
+    }
+
     // Generates a unique patient ID
     private String generatePatientID() {
         return "P" + (++patientCounter); // Increment and return new ID
@@ -39,12 +63,12 @@ public class Patient implements PatientRecordInterface {
 
     // manage alternate flows
     public String registerPatient() {
-        if (patientName.isEmpty() || dateOfBirth.isEmpty() || address.isEmpty()) {
+        if (patientName.isEmpty() || dateOfBirth.isEmpty() || address.isEmpty() || currentRoom.isEmpty()) {
             return "Registration failed: All fields are required.";
         }
 
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATIENT_FILE, true))) {
-            writer.write(patientID + "," + patientName + "," + dateOfBirth + "," + address + "," + medicalRecord);
+            writer.write(patientID + "," + patientName + "," + dateOfBirth + "," + address + "," + currentRoom + "," + dietaryRestrictions + "," + medicalRecord);
             writer.newLine();
             return "Registration successful. Patient ID: " + patientID;
         } catch (IOException e) {
@@ -64,10 +88,10 @@ public class Patient implements PatientRecordInterface {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(PATIENT_FILE))) {
             for (Patient patient : patients) {
                 if (patient.getPatientID().equals(this.patientID)) {
-                    writer.write(patientID + "," + patientName + "," + dateOfBirth + "," + address + "," + medicalRecord);
+                    writer.write(patientID + "," + patientName + "," + dateOfBirth + "," + address + "," + currentRoom + "," + dietaryRestrictions + "," + medicalRecord);
                 } else {
                     writer.write(patient.patientID + "," + patient.patientName + "," + patient.dateOfBirth + ","
-                            + patient.address + "," + patient.medicalRecord);
+                            + patient.address + "," + patient.currentRoom + "," + patient.dietaryRestrictions + "," + patient.medicalRecord);
                 }
                 writer.newLine();
             }
@@ -84,13 +108,13 @@ public class Patient implements PatientRecordInterface {
             List<String> lines = Files.readAllLines(Paths.get(PATIENT_FILE));
             for (String line : lines) {
                 String[] data = line.split(",");
-                if (data.length < 5) {
+                if (data.length < 7) {
                     System.out.println("Skipping incomplete patient record: " + line);
                     continue;
                 }
-                Patient patient = new Patient(data[1], data[2], data[3]);
+                Patient patient = new Patient(data[1], data[2], data[3], data[4], data[5]);
                 patient.patientID = data[0];
-                patient.medicalRecord = data[4];
+                patient.medicalRecord = data[6];
                 patients.add(patient);
             }
         } catch (IOException e) {
@@ -102,6 +126,14 @@ public class Patient implements PatientRecordInterface {
     // Getters
     public String getPatientID() {
         return patientID;
+    }
+
+    public String getDietaryRestrictions() {
+        return dietaryRestrictions;
+    }
+
+    public String getCurrentRoom() {
+        return currentRoom;
     }
 
     @Override
