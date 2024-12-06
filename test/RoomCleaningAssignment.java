@@ -102,6 +102,29 @@ public class RoomCleaningAssignment {
         System.out.println("Staff with ID " + staffId + " not found.");
     }
 
+    // Method to view tasks for a specific staff member
+    private static void viewTasksForStaff(int staffId) {
+        try (BufferedReader reader = new BufferedReader(new FileReader(".\\files\\tasks.txt"))) {
+            String line;
+            boolean taskFound = false;
+            while ((line = reader.readLine()) != null) {
+                if (line.contains("Staff ID: " + staffId)) {
+                    taskFound = true;
+                    System.out.println(line); // Print task line
+                    while ((line = reader.readLine()) != null && line.startsWith("Step:")) {
+                        System.out.println(line); // Print task steps
+                    }
+                    System.out.println(); // Add extra line after task
+                }
+            }
+            if (!taskFound) {
+                System.out.println("No tasks found for Staff ID " + staffId);
+            }
+        } catch (IOException e) {
+            System.out.println("Error reading tasks: " + e.getMessage());
+        }
+    }
+
     public static void main(String[] args) {
         // Load staff and rooms data
         List<Staff> staffList = loadStaff();
@@ -109,54 +132,76 @@ public class RoomCleaningAssignment {
 
         // Main menu options
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Select an option:");
-        System.out.println("1. Assign task to staff already assigned to a room.");
-        System.out.println("2. Assign available staff to a room.");
-        int choice = scanner.nextInt();
-        scanner.nextLine();  
-        switch (choice) {
-            case 1:
-                {
-                    
-                    System.out.println("Staff Already Assigned to Rooms:");
-                    displayStaffAvailability(staffList);
-                    System.out.print("\nEnter staff ID to assign a task to: ");
-                    int staffId = scanner.nextInt();
-                    scanner.nextLine();  
-                    System.out.print("Enter task description for staff: ");
-                    String taskDescription = scanner.nextLine();
-                    System.out.print("Enter number of steps for the checklist: ");
-                    int numSteps = scanner.nextInt();
-                    scanner.nextLine(); 
-                    List<String> checklist = new ArrayList<>();
-                    for (int i = 0; i < numSteps; i++) {
-                        System.out.print("Enter step " + (i + 1) + ": ");
-                        checklist.add(scanner.nextLine());
-                    }       assignTaskToStaff(staffList, staffId, taskDescription, checklist);
-                    break;
-                }
-            case 2:
-                {
-                   
-                    System.out.println("\nAvailable Staff Members:");
-                    displayStaffAvailability(staffList);
-                    System.out.println("\nAvailable Rooms:");
-                    displayRoomAvailability(roomList);
-                    System.out.print("\nEnter staff ID to assign to a room: ");
-                    int staffId = scanner.nextInt();
-                    scanner.nextLine();  
-                    System.out.print("Enter room ID to assign staff to: ");
-                    String roomId = scanner.nextLine();
-                    if (assignStaffToRoom(staffList, staffId, roomId)) {
-                        System.out.println("Staff assigned to room successfully.");
-                    }       break;
-                }
-            default:
-                System.out.println("Invalid choice. Please try again.");
-                break;
-        }
+        int choice;
+        do {
+            System.out.println("Select an option:");
+            System.out.println("1. Assign task to staff already assigned to a room.");
+            System.out.println("2. Assign available staff to a room.");
+            System.out.println("3. View tasks for a staff member.");
+            System.out.println("4. Exit.");
+            System.out.println("5. View current staff assignments.");
+            choice = scanner.nextInt();
+            scanner.nextLine();  
 
-       
+            switch (choice) {
+                case 1:
+                    {
+                        System.out.println("Staff Already Assigned to Rooms:");
+                        displayStaffAvailability(staffList);
+                        System.out.print("\nEnter staff ID to assign a task to: ");
+                        int staffId = scanner.nextInt();
+                        scanner.nextLine();  
+                        System.out.print("Enter task description for staff: ");
+                        String taskDescription = scanner.nextLine();
+                        System.out.print("Enter number of steps for the checklist: ");
+                        int numSteps = scanner.nextInt();
+                        scanner.nextLine(); 
+                        List<String> checklist = new ArrayList<>();
+                        for (int i = 0; i < numSteps; i++) {
+                            System.out.print("Enter step " + (i + 1) + ": ");
+                            checklist.add(scanner.nextLine());
+                        }       
+                        assignTaskToStaff(staffList, staffId, taskDescription, checklist);
+                        break;
+                    }
+                case 2:
+                    {
+                        System.out.println("\nAvailable Staff Members:");
+                        displayStaffAvailability(staffList);
+                        System.out.println("\nAvailable Rooms:");
+                        displayRoomAvailability(roomList);
+                        System.out.print("\nEnter staff ID to assign to a room: ");
+                        int staffId = scanner.nextInt();
+                        scanner.nextLine();  
+                        System.out.print("Enter room ID to assign staff to: ");
+                        String roomId = scanner.nextLine();
+                        if (assignStaffToRoom(staffList, staffId, roomId)) {
+                            System.out.println("Staff assigned to room successfully.");
+                        }       
+                        break;
+                    }
+                case 3:
+                    {
+                        System.out.print("Enter staff ID to view tasks: ");
+                        int staffId = scanner.nextInt();
+                        scanner.nextLine();  
+                        viewTasksForStaff(staffId);
+                        break;
+                    }
+                case 4:
+                    System.out.println("Exiting program.");
+                    break;
+                case 5: 
+                System.out.println("\nCurrent Staff Assignments:");
+                displayStaffAvailability(staffList);
+                break;
+                default:
+                    System.out.println("Invalid choice. Please try again.");
+                    break;
+            }
+        } while (choice != 4);
+
+        // Save staff assignments
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(".\\files\\staff.txt"))) {
             for (Staff staff : staffList) {
                 writer.write(staff.getId() + ", " + staff.getName() + ", " + (staff.getAssignedRoom().isEmpty() ? "Available" : staff.getAssignedRoom()));

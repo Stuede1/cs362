@@ -1,9 +1,9 @@
-1, Alice, Available
+1, Alice, Room101
 2, Bob, Room101
 3, Charlie, Room101
 4, David, Room102
 5, Emma, Room103
-6, Frank, Available
+6, Frank, Room101
 7, Grace, Room104
 8, Harry, Room105
 9, Ivy, Room105

@@ -4,12 +4,9 @@ Step: wash
 Step: dry
 Step: replace
 
-Staff ID: 8, Task: Clean the bed
-Step: run
-Step: spot
-Step: run
-
-Staff ID: 9 Name: Ivy, Task: run
-Step: set
-Step: hut
+Staff ID: 1 Name: Alice, Task: Clean Room 101
+Step: Sweep
+Step: Mop
+Step: Sanitize
+Step: clean
 
