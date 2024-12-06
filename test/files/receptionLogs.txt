@@ -1,0 +1,15 @@
+Visitor V1732179307903 checked in to see Patient P3 in room null
+Visitor V1732180915531 checked in to see Patient P2 in room 102
+Visitor V1732181953479 checked in to see Patient P3 in room 103 at 2024-11-21 03:39:29
+Visitor V1732182496385 checked in to see Patient P1 in room 101 at 2024-11-21 03:56:55
+Visitor V1732184467421 checked in to see Patient P2 in room 102 at 2024-11-21 04:24:17
+Visitor V3 checked in to see Patient P2 in room 102 at 2024-11-21 04:40:00, Estimated check-out: 2024-11-21 23:59:59
+Visitor V5 checked in to see Patient P3 in room 103 at 2024-11-21 04:48:46, Estimated check-out: 2024-11-21 23:59:59
+Visitor V3 checked in to see Patient P2 in room 102 at 2024-11-21 10:38:37, Estimated check-out: 2024-11-21 23:59:59
+Visitor V3 checked in to see Patient P2 in room 102 at 2024-11-21 10:42:28, Estimated check-out: 2024-11-21 23:59:59
+Visitor V4 checked in to see Patient P1 in room 101 at 2024-11-21 10:43:29, Estimated check-out: 2024-11-21 23:59:59
+Visitor V5 checked in to see Patient P3 in room 103 at 2024-11-21 10:59:48, Estimated check-out: 2024-11-21 23:59:59
+Visitor V1 checked in to see Patient P1 in room 101 at 2024-11-21 11:11:59, Estimated check-out: 2024-11-21 23:59:59
+Visitor V6 checked in to see Patient P1 in room 101 at 2024-11-21 11:13:06, Estimated check-out: 2024-11-21 23:59:59
+Visitor V9 checked in to see Patient P1 in room 101 at 2024-11-21 13:43:09, Estimated check-out: 2024-11-21 23:59:59
+Visitor V8 checked in to see Patient P1 in room 101 at 2024-11-21 13:56:20, Estimated check-out: 2024-11-21 23:59:59

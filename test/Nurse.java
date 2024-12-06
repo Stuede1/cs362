@@ -6,20 +6,21 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+
+
 public class Nurse {
     private String nurseID;
     private String nurseName;
 
     // File path for storing nurse records
-    private static final String NURSE_FILE = "cs362\\test\\files\\nurses.txt";
+    private static final String NURSE_FILE = "files/nurses.txt";
+    private static final String MEAL_PLAN_FILE = "files/mealPlans.txt";
 
-    // Constructor
     public Nurse(String nurseID, String nurseName) {
         this.nurseID = nurseID;
         this.nurseName = nurseName;
     }
 
-    // Getters
     public String getNurseID() {
         return nurseID;
     }
@@ -28,7 +29,6 @@ public class Nurse {
         return nurseName;
     }
 
-    // Save nurse to the file
     public String saveNurse() {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(NURSE_FILE, true))) {
             writer.write(nurseID + "," + nurseName);
@@ -39,7 +39,6 @@ public class Nurse {
         }
     }
 
-    // Retrieve all nurses from the file
     public static List<Nurse> getAllNurses() {
         List<Nurse> nurses = new ArrayList<>();
         try {
@@ -57,7 +56,6 @@ public class Nurse {
         return nurses;
     }
 
-    // Find a nurse by ID from the file
     public static Nurse findNurseByID(String nurseID) {
         for (Nurse nurse : getAllNurses()) {
             if (nurse.getNurseID().equals(nurseID)) {
@@ -67,8 +65,49 @@ public class Nurse {
         return null; // Return null if nurse is not found
     }
 
-    // Assign a nurse to a patient or medication order
     public String assignToPatient(String patientID) {
         return "Nurse " + nurseName + " (ID: " + nurseID + ") assigned to patient " + patientID;
+    }
+
+    public void designDietaryNeeds(String patientID, String patientName, String dietaryNeeds, String dietaryRestrictions, String currentRoom) {
+        List<String> updatedLines = new ArrayList<>();
+        boolean patientFound = false;
+
+        try {
+            List<String> lines = Files.readAllLines(Paths.get(MEAL_PLAN_FILE));
+            for (String line : lines) {
+                String[] data = line.split(",");
+                if (data[0].equals(patientID)) {
+                    patientFound = true;
+                    updatedLines.add(String.format("%s,%s,%s,%s,%s,false", patientID, patientName, dietaryNeeds, dietaryRestrictions, currentRoom));
+                } else {
+                    updatedLines.add(line);
+                }
+            }
+
+            if (!patientFound) {
+                updatedLines.add(String.format("%s,%s,%s,%s,%s,false", patientID, patientName, dietaryNeeds, dietaryRestrictions, currentRoom));
+            }
+
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(MEAL_PLAN_FILE))) {
+                for (String updatedLine : updatedLines) {
+                    writer.write(updatedLine);
+                    writer.newLine();
+                }
+            }
+            System.out.println("Nurse " + this.nurseName + " designed dietary needs for patient " + patientName);
+        } catch (IOException e) {
+            System.err.println("Failed to update meal plan: " + e.getMessage());
+        }
+    }
+
+    // New method to design dietary needs from UI
+    public static void designDietaryNeedsFromUI(String nurseID, String patientID, String patientName, String dietaryNeeds, String dietaryRestrictions, String currentRoom) {
+        Nurse nurse = findNurseByID(nurseID);
+        if (nurse != null) {
+            nurse.designDietaryNeeds(patientID, patientName, dietaryNeeds, dietaryRestrictions, currentRoom);
+        } else {
+            System.out.println("Nurse not found. Please provide a valid nurse ID.");
+        }
     }
 }
