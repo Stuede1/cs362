@@ -1,0 +1,7 @@
+DON1,BloodBankInventory,A,499208
+DON2,BloodBankInventory,B,0
+DON3,BloodBankInventory,AB,0
+DON4,BloodBankInventory,O,0
+DON5,BloodBankInventory,Others,0
+DON1733827456210,qwe,A,508
+DON1733827618548,a,A,500000
