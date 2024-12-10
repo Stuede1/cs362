@@ -1,8 +1,8 @@
 import java.io.BufferedReader;
 import java.io.File;
-import java.nio.file.Files;
 import java.io.FileReader;
 import java.io.FileWriter;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -111,12 +111,14 @@ class Doctor {
     private String userID;
     private String userName;
     private int available;
+    private int specialty;
 
 
-    public Doctor(String userID, String userName, int available) {
+    public Doctor(String userID, String userName, int available, int specialty) {
         this.userID = userID;
         this.userName = userName;
         this.available = available;
+        this.specialty = specialty;
     }
 
 
@@ -132,6 +134,9 @@ class Doctor {
         return available;
     }
 
+    public Integer getSpecialty() {
+        return specialty;
+    }
     public void setAvailability (int availability) {
         this.available = availability;
     }
@@ -151,9 +156,14 @@ class Doctor {
 
     @Override
     public String toString() {
-        return "User ID: " + userID + "    |    Name: " + userName + "    |    Available: " + available;
+        return "User ID: " + userID + "    |    Name: " + userName + "    |    Available: " + available + "    |    Specialty: " + specialty;
     }
 
+
+    public String specialDoctor() {
+        return "Name: " + userName + "    |    Available: " + available + "    |    Specialty: " + specialty;
+
+    }
 }
 
 
@@ -203,6 +213,7 @@ public class App {
 
         while (!exit) {
             System.out.println("Welcome to the Hospital Portal!  Please select an option below.\n");
+            System.out.println("[0] Find Doctor");
             System.out.println("[1] Add Appointment");
             System.out.println("[2] View Appointments");
             System.out.println("[3] Add User");
@@ -211,10 +222,109 @@ public class App {
             System.out.println("[6] Exit\n");
             System.out.print("Choose an option: ");
             int option = scnr.nextInt();
+            int doctorOption = 9;
 
             scnr.nextLine();  
 
             switch (option) {
+
+                case 0:
+                    try {
+                        System.out.println();
+                        System.out.println("-----------------------------------------------------------------\n");
+
+                        int userOption = 10;
+
+                        System.out.println("Select Issue/Symptom: ");
+                        System.out.println("[1] Head");
+                        System.out.println("[2] Back");
+                        System.out.println("[3] Joint");
+                        System.out.println("[4] Leg");
+                        System.out.println("[5] Stomach");
+                        System.out.println("[6] Emotional");
+                        System.out.println("[7] Upper Body");
+                        System.out.println("[8] Lower Body");
+                        System.out.println("[9] Other");
+                        System.out.println("[0] Exit\n");
+                        System.out.print("Choose an option: ");
+
+                        userOption = scnr.nextInt();
+
+                        if (userOption > 9) {
+                            System.out.println("Invalid Option: ");
+                            break;
+                        }
+
+                        System.out.print("Current Doctors: ");
+
+                        BufferedReader spDoc = new BufferedReader(new FileReader("staffData.txt"));
+                        String docLine = spDoc.readLine();
+
+                        String target = "Specialty: " + Integer.toString(userOption);
+
+                        Doctor spD = null;
+
+
+                        if (userOption > 9){
+                            System.out.println("No Doctor exists with specified ID");
+                        } else {
+                            while (docLine != null) {
+                                if(docLine.contains(target)){
+                                    List<String> doctor1 = Arrays.asList(docLine.split(" "));
+                                    String dID = doctor1.get(2);
+
+                                    // List<String> doctor2 = Arrays.asList(dline.split("Name: "));
+                                    List<String> doctor2 = Arrays.asList(docLine.split(" "));
+                                    String doctorName = doctor2.get(11);
+
+                                    List<String> doctor3 = Arrays.asList(docLine.split(" "));
+                                    int a = Integer.valueOf(doctor3.get(20));
+
+                                    int dtemp = 0;
+
+                                    spD = new Doctor(dID, doctorName, a, dtemp);
+                                    docLine = null;
+                                    spDoc.close();
+                                    break;
+                                }
+                                docLine = spDoc.readLine();
+                            }
+                            spDoc.close();
+                        }
+
+                        spDoc.close();
+
+
+                        String temp1 = spD.get_userID();
+                        String temp2 = spD.get_userName();
+                        Integer temp3 = spD.getAvailability();
+                        Integer temp4 = Integer.parseInt(temp1);
+
+
+
+
+                        spD = new Doctor(temp1, temp2, temp3, userOption);
+
+
+                        String doctorDetails = spD.specialDoctor();
+
+
+                        System.out.println(doctorDetails);
+
+                        doctorOption = userOption;
+
+                        System.out.println("");
+
+                        break;
+
+    
+                    } catch (Exception e) {
+                        System.out.println("An error occurred.");
+                        e.printStackTrace();
+                        break;
+                    }
+
+
                 case 1:
                     try {
                         String calendarFile = "calendarFile.txt";
@@ -345,9 +455,11 @@ public class App {
                                     String doctorName = doctor2.get(11);
 
                                     List<String> doctor3 = Arrays.asList(dline.split("Available: "));
-                                    Integer a = Integer.valueOf(doctor3.get(1));
+                                    int a = Integer.valueOf(doctor3.get(1));
 
-                                    d = new Doctor(dID, doctorName, a);
+                                    int dtemp = 0;
+
+                                    d = new Doctor(dID, doctorName, a, dtemp);
                                     dline = null;
                                     dreader.close();
                                     break;
@@ -373,9 +485,13 @@ public class App {
                             Integer temp3 = d.getAvailability();
                             Integer temp4 = Integer.parseInt(temp1);
 
+                            Integer temp5 = 0;
+
                             temp3 = temp3 - hour;
 
-                            d = new Doctor(temp1, temp2, temp3);
+
+
+                            d = new Doctor(temp1, temp2, temp3, temp5);
 
 
                             String doctorDetails = d.toString();
@@ -531,9 +647,41 @@ public class App {
                             String availableString = scnr.nextLine();
     
                             int availability = Integer.parseInt(availableString);
+
+                            System.out.print("Enter Doctor's field: \n");
+                            System.out.println("[1] Head");
+                            System.out.println("[2] Back");
+                            System.out.println("[3] Joint");
+                            System.out.println("[4] Leg");
+                            System.out.println("[5] Stomach");
+                            System.out.println("[6] Emotional");
+                            System.out.println("[7] Upper Body");
+                            System.out.println("[8] Lower Body");
+                            System.out.println("[9] Other");
+
+
+                            int specialty = 10;
+
+
+                            specialty = scnr.nextInt();
+
+                            if (specialty > 9) {
+                                specialty = 9;
+                            } 
+
+                            // System.out.println("[1] Head");
+                            // System.out.println("[2] Back");
+                            // System.out.println("[3] Joint");
+                            // System.out.println("[4] Leg");
+                            // System.out.println("[5] Stomach");
+                            // System.out.println("[6] Emotional");
+                            // System.out.println("[7] Upper Body");
+                            // System.out.println("[8] Lower Body");
+                            
+
     
                             
-                            Doctor doctor = new Doctor(doctorID, userName, availability);
+                            Doctor doctor = new Doctor(doctorID, userName, availability, specialty);
     
                             // String doctorString = doctor.toString() + "*";
                             String doctorString = doctor.toString();
@@ -728,8 +876,9 @@ public class App {
                         sline = null;
                         sreader.close();
 
+                        int var4 = 0;
 
-                        Doctor d = new Doctor(var1, var2, a1);
+                        Doctor d = new Doctor(var1, var2, a1, var4);
 
                         String doctorString = d.toString();
 
@@ -752,6 +901,5 @@ public class App {
         System.out.println("-----------------------------------------------------------------\n");
     }
 }
-
 
 
