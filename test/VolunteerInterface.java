@@ -1,5 +1,10 @@
 import java.time.LocalDateTime;
-
+/**
+* @author Yunpeng Lyu
+*
+* Volunteer Interface
+*
+*/
 public interface VolunteerInterface {
     String getVolunteerID();
     String getName();

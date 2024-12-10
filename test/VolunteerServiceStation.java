@@ -1,3 +1,10 @@
+/**
+* @author Yunpeng Lyu
+*
+* Volunteer Service Station Class
+*
+*/
+
 public class VolunteerServiceStation {
 
     public static String checkInVolunteer(String volunteerID, String taskDescription) {

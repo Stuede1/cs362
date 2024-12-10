@@ -6,6 +6,13 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+* @author Yunpeng Lyu
+*
+* Volunteer class
+*
+*/
+
 public class Volunteer {
     private static final String VOLUNTEER_FILE = "files/volunteers.txt";
     private String volunteerID;
@@ -106,7 +113,7 @@ public class Volunteer {
 
 
     
-    
+
     public String getVolunteerID() {
         return volunteerID;
     }

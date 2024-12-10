@@ -1,6 +1,13 @@
 import java.util.List;
 import java.util.Scanner;
 
+/**
+* @author Yunpeng Lyu
+*
+* UI for Volunteer 
+*
+*/
+
 public class UIVolunteerManagement {
     private static List<Volunteer> volunteers = Volunteer.getAllVolunteers();
     private static Scanner scanner = new Scanner(System.in);
