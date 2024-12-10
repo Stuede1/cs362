@@ -10,6 +10,7 @@ public class EmergencyDispatch {
         EmergencyDispatch dispatchSystem = new EmergencyDispatch();
         dispatchSystem.loadAmbulances(".\\files\\ambulances.txt");
         dispatchSystem.loadDrivers(".\\files\\drivers.txt");
+        
 
         Scanner scanner = new Scanner(System.in);
         boolean running = true;
@@ -48,18 +49,39 @@ public class EmergencyDispatch {
         System.out.print("Enter patient condition: ");
         String patientCondition = scanner.nextLine();
 
+        System.out.print("Enter Estimated Time of Arrival (ETA): ");
+        String eta = scanner.nextLine();  // Get ETA
+
+        System.out.print("Enter room number: ");
+        String room = scanner.nextLine();  // Get room number
+
         EmergencyPatient patient = new EmergencyPatient(patientName, patientCondition);
 
         System.out.println("\nDispatching emergency resources...");
-        if (dispatchEmergency(patient)) {
+        if (dispatchEmergency(patient, eta, room)) {
             System.out.println("Emergency resources successfully dispatched!");
-            saveAmbulances(".\\files\\ambulances.txt"); // Update ambulances file
+            // Save room data to the correct file based on room type
+            saveEmergencyRoom(room, patientName, eta);  // Save to emergencyroom.txt if it's an ER
         } else {
             System.out.println("No available ambulances or drivers at this time.");
         }
 
         System.out.println("\nCurrent Ambulance and Driver Status:");
         displayStatus();
+    }
+
+    private void saveEmergencyRoom(String room, String patient, String eta) {
+        // Check if the room is an emergency room based on ERid or Rid
+        if (room.startsWith("ER")) {
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(".\\files\\emergencyroom.txt", true))) {
+                writer.write("Room: " + room + ", Patient: " + patient + ", ETA: " + eta);
+                writer.newLine();
+            } catch (IOException e) {
+                System.out.println("Error writing to emergencyroom.txt: " + e.getMessage());
+            }
+        } else {
+            System.out.println("This room is not an emergency room and will not be saved to emergencyroom.txt.");
+        }
     }
 
     private void freeResources(Scanner scanner) {
@@ -103,7 +125,9 @@ public class EmergencyDispatch {
                 boolean available = data[1].equalsIgnoreCase("Available");
                 String assignedPatient = data.length > 2 ? data[2] : "None";
                 String assignedCondition = data.length > 3 ? data[3] : "None";
-                ambulances.add(new Ambulance(id, available, assignedPatient, assignedCondition));
+                String eta = data.length > 4 ? data[4] : "N/A";  // Default "N/A" for ETA
+                String room = data.length > 5 ? data[5] : "Unknown";  // Default "Unknown" for room
+                ambulances.add(new Ambulance(id, available, assignedPatient, assignedCondition, eta, room));
             }
         } catch (IOException e) {
             System.out.println("Error reading " + filename + ": " + e.getMessage());
@@ -126,7 +150,7 @@ public class EmergencyDispatch {
         }
     }
 
-    public boolean dispatchEmergency(EmergencyPatient patient) {
+    public boolean dispatchEmergency(EmergencyPatient patient, String eta, String room) {
         Ambulance availableAmbulance = null;
         Driver availableDriver = null;
 
@@ -151,6 +175,8 @@ public class EmergencyDispatch {
             availableAmbulance.setAvailable(false);
             availableAmbulance.setAssignedPatient(patient.getName());
             availableAmbulance.setAssignedCondition(patient.getCondition());
+            availableAmbulance.setEta(eta);  // Set ETA
+            availableAmbulance.setRoom(room);  // Set room
             availableDriver.setAvailable(false);
             availableDriver.setAssignedAmbulance(availableAmbulance.getId()); // Assign ambulance to driver
 
@@ -159,6 +185,8 @@ public class EmergencyDispatch {
             System.out.println("Condition: " + patient.getCondition());
             System.out.println("Ambulance Assigned: " + availableAmbulance.getId());
             System.out.println("Driver Assigned: " + availableDriver.getName());
+            System.out.println("ETA: " + availableAmbulance.getEta());
+            System.out.println("Room: " + availableAmbulance.getRoom());
 
             return true;
         }

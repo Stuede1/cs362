@@ -3,3 +3,5 @@ D003,Dr. Carol Lee,P1,Cole,Advil,50,twice a day
 D003,Dr. Carol LeeD,P3,Rick Morris,Athsma,100mg,Twice a Day
 D004,Jeff ,P5,Josh Whittington,Nyquill,100mg,Twice a day
 D004,Jeff Clark ,P3,Rick Morris,Adler,50mg,Four
+D001,Dr. Alice Smith,P1,John Doe,Xanex,100mg,Once a day
+D002,Dr. Bob Johnson,P2,Jane Smith,Bayer,100,Twice a day

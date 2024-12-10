@@ -13,6 +13,7 @@ public class OrderMedication {
 
     // File path for saving medication orders
     private static final String MEDICATION_ORDER_FILE = ".\\files\\medication.txt";
+    
 
     // Constructor to initialize the OrderMedication with Doctor, Patient, and Medication details
     public OrderMedication(String doctorID, String doctorName, String patientID, String patientName, String medicationName, String dosage, String frequency) {

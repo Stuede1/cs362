@@ -1,4 +1,4 @@
-A101, Unavailable, Rick Jackson, Mono
-A102, Available, None, None
-A103, Available, None, None
-A104, Unavailable, Jane Smith, Stable
+A101, Unavailable, Rick Jackson, Mono, ETA: ETA: N/A, Room: Room: Unknown
+A102, Unavailable, Alex, Stable, ETA: ETA: 20 minutes, Room: Room: R001
+A103, available, Jacksen, Critical, ETA: 15 miniute, Room: ER10001
+A104, Unavailable, Jane Smith, Stable, ETA: N/A, Room: Unknown

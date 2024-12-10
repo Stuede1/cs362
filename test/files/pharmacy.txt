@@ -1,0 +1,10 @@
+Aspirin, Bayer, 200, true
+Amoxicillin, Amgen, 50, true
+Ibuprofen, Advil, 200, false
+Paracetamol, Tylenol, 150, true
+Cough Syrup, Robitussin, 75, true
+Lisinopril, Zestril, 40, false
+Omeprazole, Prilosec, 120, true
+Metformin, Glucophage, 90, false
+Diphenhydramine, Benadryl, 60, true
+Albuterol, Proventil, 80, false
