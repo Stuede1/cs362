@@ -4,7 +4,7 @@ import java.util.Scanner;
 public class MedicationOrderUI {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        Pharmacy pharmacy = new Pharmacy("./files/pharmacy.txt");
+        Pharmacy pharmacy = new Pharmacy(".\\test\\files\\pharmacy.txt");
 
         while (true) {
             System.out.println("Welcome to the Pharmacy Management System");

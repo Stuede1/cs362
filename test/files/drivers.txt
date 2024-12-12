@@ -1,4 +1,4 @@
-1, John Doe, Unavailable, A102
+1, John Doe, Available, None
 2, Jane Smith, Available, None
 3, Mike Johnson, Available, None
-4, Sarah Lee, Unavailable, A104
+4, Sarah Lee, Available, None 

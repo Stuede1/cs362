@@ -63,10 +63,16 @@ public class Ambulance {
         this.assignedCondition = assignedCondition != null ? assignedCondition : "None";
     }
 
-    // Override the toString method to include ETA and room
     @Override
     public String toString() {
-        return id + ", " + (available ? "Available" : "Unavailable") + ", " +
-                assignedPatient + ", " + assignedCondition + ", " + eta + ", " + room;
+        return String.format(
+            " %s, %s, %s, %s, %s, %s",
+            id,
+            available ? "Available" : "Unavailable", // Convert boolean to text
+            assignedPatient,
+            assignedCondition,
+            eta,
+            room
+        );
     }
 }

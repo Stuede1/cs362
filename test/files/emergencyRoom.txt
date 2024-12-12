@@ -1,1 +1,3 @@
 Room: ER202, Patient: Dulas, ETA: 10
+Room: ER105, Patient: Carl, ETA: 20
+Room: ER599, Patient: Rick, ETA: 30

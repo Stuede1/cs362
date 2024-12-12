@@ -8,8 +8,9 @@ public class EmergencyDispatch {
 
     public static void main(String[] args) {
         EmergencyDispatch dispatchSystem = new EmergencyDispatch();
-        dispatchSystem.loadAmbulances(".\\files\\ambulances.txt");
-        dispatchSystem.loadDrivers(".\\files\\drivers.txt");
+        dispatchSystem.loadAmbulances(".\\test\\files\\ambulances.txt");
+        dispatchSystem.loadDrivers(".\\test\\files\\drivers.txt");
+        
         
 
         Scanner scanner = new Scanner(System.in);
@@ -73,8 +74,8 @@ public class EmergencyDispatch {
     private void saveEmergencyRoom(String room, String patient, String eta) {
         // Check if the room is an emergency room based on ERid or Rid
         if (room.startsWith("ER")) {
-            try (BufferedWriter writer = new BufferedWriter(new FileWriter(".\\files\\emergencyroom.txt", true))) {
-                writer.write("Room: " + room + ", Patient: " + patient + ", ETA: " + eta);
+            try (BufferedWriter writer = new BufferedWriter(new FileWriter(".\\test\\files\\emergencyroom.txt", true))) {
+                writer.write(room + ", " + patient + ", " + eta);
                 writer.newLine();
             } catch (IOException e) {
                 System.out.println("Error writing to emergencyroom.txt: " + e.getMessage());
@@ -113,7 +114,7 @@ public class EmergencyDispatch {
         driver.setAssignedAmbulance(null); // Clear the assigned ambulance for the driver
 
         System.out.println("Resources freed: Ambulance " + ambulanceId + " and Driver " + driverId);
-        saveAmbulances(".\\files\\ambulances.txt"); // Update ambulances file
+        saveAmbulances(".\\test\\files\\ambulances.txt"); // Update ambulances file
     }
 
     public void loadAmbulances(String filename) {
@@ -224,14 +225,22 @@ public class EmergencyDispatch {
     }
 
     public void displayStatus() {
-        System.out.println("\nAmbulance Status:");
-        for (Ambulance ambulance : ambulances) {
-            System.out.println(ambulance);
+        System.out.println("\n--- Ambulance Status ---");
+        if (ambulances.isEmpty()) {
+            System.out.println("No ambulance data available.");
+        } else {
+            for (Ambulance ambulance : ambulances) {
+                System.out.println(ambulance);
+            }
         }
-
-        System.out.println("\nDriver Status:");
-        for (Driver driver : drivers) {
-            System.out.println(driver);
+    
+        System.out.println("\n--- Driver Status ---");
+        if (drivers.isEmpty()) {
+            System.out.println("No driver data available.");
+        } else {
+            for (Driver driver : drivers) {
+                System.out.println(driver);
+            }
         }
     }
 }
