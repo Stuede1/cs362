@@ -3,13 +3,19 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.nio.file.Files;
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-// import java.io.IOException;
+
+
+import java.io.IOException;
 
 
 
@@ -63,7 +69,130 @@ class Appointment {
 
 }
 
+class TimeSlot {
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
 
+    public TimeSlot(LocalDateTime startTime, LocalDateTime endTime) {
+        if (startTime.isAfter(endTime)) {
+            throw new IllegalArgumentException("Start time must be before end time.");
+        }
+        this.startTime = startTime;
+        this.endTime = endTime;
+    }
+
+    public LocalDateTime getStartTime() {
+        return startTime;
+    }
+
+    public LocalDateTime getEndTime() {
+        return endTime;
+    }
+
+    public boolean overlaps(TimeSlot other) {
+        return !this.endTime.isBefore(other.startTime) && !this.startTime.isAfter(other.endTime);
+    }
+}
+
+class FileHandler {
+    private static final String FILE_PATH = "appointments.txt";
+    private static final DateTimeFormatter FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+    public static void saveAppointments(List<TimeSlot> appointments) throws IOException {
+        try (FileWriter writer = new FileWriter(FILE_PATH)) {
+            for (TimeSlot slot : appointments) {
+                String line = FORMATTER.format(slot.getStartTime()) + " - " + FORMATTER.format(slot.getEndTime());
+                writer.write(line + System.lineSeparator());
+            }
+        }
+    }
+
+    public static List<TimeSlot> loadAppointments() throws FileNotFoundException {
+        List<TimeSlot> appointments = new ArrayList<>();
+        File file = new File(FILE_PATH);
+
+        if (!file.exists()) {
+            return appointments; // Return empty list if file doesn't exist
+        }
+
+        try (Scanner scanner = new Scanner(file)) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] parts = line.split(" - ");
+                LocalDateTime startTime = LocalDateTime.parse(parts[0], FORMATTER);
+                LocalDateTime endTime = LocalDateTime.parse(parts[1], FORMATTER);
+                appointments.add(new TimeSlot(startTime, endTime));
+            }
+        }
+
+        return appointments;
+    }
+
+}
+
+
+
+// class Schedule {
+//     private LocalDate date;
+//     private List<TimeSlot> bookedSlots;
+
+//     public Schedule(LocalDate date) {
+//         this.date = date;
+//         this.bookedSlots = new ArrayList<>();
+//     }
+
+//     public boolean isAvailable(TimeSlot newSlot) {
+//         for (TimeSlot slot : bookedSlots) {
+//             if (slot.overlaps(newSlot)) {
+//                 return false;
+//             }
+//         }
+//         return true;
+//     }
+
+//     public boolean bookSlot(TimeSlot newSlot) {
+//         if (isAvailable(newSlot)) {
+//             bookedSlots.add(newSlot);
+//             return true;
+//         }
+//         return false;
+//     }
+
+//     public List<TimeSlot> getBookedSlots() {
+//         return bookedSlots;
+//     }
+// }
+
+class Schedule {
+    private List<TimeSlot> bookedSlots;
+
+    public Schedule() {
+        try {
+            this.bookedSlots = FileHandler.loadAppointments();
+        } catch (IOException e) {
+            this.bookedSlots = new ArrayList<>();
+        }
+    }
+
+    public boolean bookSlot(TimeSlot newSlot) {
+        for (TimeSlot slot : bookedSlots) {
+            if (slot.overlaps(newSlot)) {
+                return false;
+            }
+        }
+        bookedSlots.add(newSlot);
+        try {
+            FileHandler.saveAppointments(bookedSlots);
+        } catch (IOException e) {
+            System.out.println("Error saving appointments: " + e.getMessage());
+        }
+        return true;
+    }
+
+    public List<TimeSlot> getBookedSlots() {
+        return bookedSlots;
+    }
+}
 
 
 class User {
@@ -219,7 +348,10 @@ public class App {
             System.out.println("[3] Add User");
             System.out.println("[4] View Users");
             System.out.println("[5] View Calendar");
-            System.out.println("[6] Exit\n");
+            System.out.println("[6] Update Availability");
+            System.out.println("[7] Validate Appointment");
+
+            System.out.println("[9] Exit\n");
             System.out.print("Choose an option: ");
             int option = scnr.nextInt();
             int doctorOption = 9;
@@ -283,9 +415,11 @@ public class App {
                                     int dtemp = 0;
 
                                     spD = new Doctor(dID, doctorName, a, dtemp);
+                                    String doctorDetails = spD.specialDoctor();
+                                    System.out.println(doctorDetails);
                                     docLine = null;
-                                    spDoc.close();
-                                    break;
+                                    // spDoc.close();
+                                    // break;
                                 }
                                 docLine = spDoc.readLine();
                             }
@@ -295,25 +429,25 @@ public class App {
                         spDoc.close();
 
 
-                        String temp1 = spD.get_userID();
-                        String temp2 = spD.get_userName();
-                        Integer temp3 = spD.getAvailability();
-                        Integer temp4 = Integer.parseInt(temp1);
+                        // String temp1 = spD.get_userID();
+                        // String temp2 = spD.get_userName();
+                        // Integer temp3 = spD.getAvailability();
+                        // Integer temp4 = Integer.parseInt(temp1);
 
 
 
 
-                        spD = new Doctor(temp1, temp2, temp3, userOption);
+                        // spD = new Doctor(temp1, temp2, temp3, userOption);
 
 
-                        String doctorDetails = spD.specialDoctor();
+                        // String doctorDetails = spD.specialDoctor();
 
 
-                        System.out.println(doctorDetails);
+                        // System.out.println(doctorDetails);
 
-                        doctorOption = userOption;
+                        // doctorOption = userOption;
 
-                        System.out.println("");
+                        // System.out.println("");
 
                         break;
 
@@ -829,24 +963,8 @@ public class App {
 
                     break;
 
+
                 case 6:
-                    System.out.println();
-                    System.out.println("Are you sure you want to exit?\n");
-                    System.out.println("Press [y] to confirm, or [n] to go back.\n");
-
-                    String userInput = scnr.nextLine();
-
-                    if (userInput.equals("y")) {
-                        exit = true;
-                        break;
-                    } else {
-                        System.out.println("\nReturning back to Main Menu.\n");
-                        System.out.println("-----------------------------------------------------------------\n");
-                        break;
-                    }
-
-
-                case 7:
                     try {
                         System.out.print("Enter Staff ID: ");
                         String staffID = scnr.nextLine();
@@ -891,6 +1009,85 @@ public class App {
                         break;
                     }
 
+                case 7:
+                    try {
+
+                        Scanner scanner = new Scanner(System.in);
+                        // Schedule schedule = new Schedule(LocalDate.now());
+
+                        Schedule schedule = new Schedule();
+
+
+                        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+
+                        while (true) {
+                            System.out.println("\n--- Scheduler ---");
+                            System.out.println("1. Book an Appointment");
+                            System.out.println("2. View Booked Appointments");
+                            System.out.println("3. Exit");
+                            System.out.print("Choose an option: ");
+                            int testOption = scanner.nextInt();
+                            scanner.nextLine(); // Consume newline
+                
+                            if (testOption == 1) {
+                                try {
+                                    System.out.print("Enter start time (yyyy-MM-dd HH:mm): ");
+                                    LocalDateTime startTime = LocalDateTime.parse(scanner.nextLine(), formatter);
+                
+                                    System.out.print("Enter end time (yyyy-MM-dd HH:mm): ");
+                                    LocalDateTime endTime = LocalDateTime.parse(scanner.nextLine(), formatter);
+                
+                                    TimeSlot newSlot = new TimeSlot(startTime, endTime);
+                                    if (schedule.bookSlot(newSlot)) {
+                                        System.out.println("Appointment booked successfully.");
+                                    } else {
+                                        System.out.println("Time slot is not available.");
+                                    }
+                                } catch (Exception e) {
+                                    System.out.println("Invalid input. Try again.");
+                                }
+                            } else if (testOption == 2) {
+                                System.out.println("");
+                                System.out.println("Booked Appointments:");
+                                for (TimeSlot slot : schedule.getBookedSlots()) {
+                                    System.out.println(formatter.format(slot.getStartTime()) + " - " + formatter.format(slot.getEndTime()));
+                                }
+
+                            } else if (testOption == 3) {
+                                System.out.println("Exiting scheduler. Goodbye!");
+                                break;
+                            } else {
+                                System.out.println("Invalid option. Try again.");
+                            }
+                        }
+                
+                        // scanner.close();
+
+                        break;
+
+                    } catch (Exception e) {
+                        System.out.println("An error occurred.");
+                        e.printStackTrace();
+                        break;
+                    }
+
+
+                case 9:
+                    System.out.println();
+                    System.out.println("Are you sure you want to exit?\n");
+                    System.out.println("Press [y] to confirm, or [n] to go back.\n");
+
+                    String userInput = scnr.nextLine();
+
+                    if (userInput.equals("y")) {
+                        exit = true;
+                        break;
+                    } else {
+                        System.out.println("\nReturning back to Main Menu.\n");
+                        System.out.println("-----------------------------------------------------------------\n");
+                        break;
+                    }
+                    
 
                 default:
                     System.out.println("Invalid choice. Please try again.\n");
